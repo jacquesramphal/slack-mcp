@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd src/slack && pnpm install && pnpm run build",
+  "outputDirectory": "src/slack/dist",
+  "framework": null,
+  "installCommand": "pnpm install"
+} 

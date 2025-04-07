@@ -14,8 +14,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && shx chmod +x dist/*.js",
-    "prepare": "npm run build",
+    "build": "tsc --project tsconfig.json && shx chmod +x dist/*.js",
+    "prepare": "pnpm run build",
     "watch": "tsc --watch"
   },
   "dependencies": {
