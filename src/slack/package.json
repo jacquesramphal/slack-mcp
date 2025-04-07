@@ -14,12 +14,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.json && shx chmod +x dist/*.js",
+    "build": "tsc --project ./tsconfig.json && shx chmod +x dist/*.js",
     "prepare": "pnpm run build",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start": "node dist/index.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.0.1"
+    "@modelcontextprotocol/sdk": "1.0.1",
+    "@slack/bolt": "^3.17.0",
+    "openai": "^4.28.0"
   },
   "devDependencies": {
     "@types/node": "^22",

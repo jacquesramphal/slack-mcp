@@ -1,6 +1,86 @@
 # Slack MCP Server
 
-MCP Server for the Slack API, enabling Claude to interact with Slack workspaces.
+This server enables Model Context Protocol (MCP) integration with Slack, Google Drive, and Confluence.
+
+## Prerequisites
+
+- Node.js 18+
+- pnpm
+- Vercel CLI
+- Slack App credentials
+- Google Cloud credentials
+- Confluence API token
+
+## Environment Variables
+
+Create a `.env` file with:
+
+```env
+# Slack
+SLACK_BOT_TOKEN=your-slack-bot-token
+SLACK_APP_TOKEN=your-slack-app-token
+SLACK_SIGNING_SECRET=your-slack-signing-secret
+
+# OpenAI
+OPENAI_API_KEY=your-openai-api-key
+
+# Google
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REDIRECT_URI=https://your-slack-app.vercel.app/api/oauth/callback/google
+
+# Confluence
+CONFLUENCE_BASE_URL=your-confluence-base-url
+CONFLUENCE_API_TOKEN=your-confluence-api-token
+
+# Server URLs (Update after deployment)
+GOOGLE_DRIVE_SERVER_URL=https://your-gdrive-server.vercel.app
+CONFLUENCE_SERVER_URL=https://your-confluence-server.vercel.app
+```
+
+## Deployment Steps
+
+1. **Deploy Google Drive Server**
+   ```bash
+   cd src/gdrive
+   vercel
+   ```
+
+2. **Deploy Confluence Server**
+   ```bash
+   cd ../confluence
+   vercel
+   ```
+
+3. **Deploy Slack Server**
+   ```bash
+   cd ../..
+   vercel
+   ```
+
+4. **Update Environment Variables**
+   - After each deployment, update the server URLs in the Slack server's `.env`
+   - Redeploy the Slack server if you update the environment variables
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build
+pnpm run build
+
+# Watch mode
+pnpm run watch
+```
+
+## Troubleshooting
+
+- If build fails, ensure you're deploying from the root directory
+- Verify all environment variables are set correctly
+- Check that server URLs are updated after deployment
+- Ensure proper workspace configuration with pnpm
 
 ## Tools
 
@@ -108,49 +188,3 @@ Add the following to your `claude_desktop_config.json`:
   }
 }
 ```
-
-#### docker
-
-```json
-{
-  "mcpServers": {
-    "slack": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "SLACK_BOT_TOKEN",
-        "-e",
-        "SLACK_TEAM_ID",
-        "mcp/slack"
-      ],
-      "env": {
-        "SLACK_BOT_TOKEN": "xoxb-your-bot-token",
-        "SLACK_TEAM_ID": "T01234567"
-      }
-    }
-  }
-}
-```
-
-### Troubleshooting
-
-If you encounter permission errors, verify that:
-1. All required scopes are added to your Slack app
-2. The app is properly installed to your workspace
-3. The tokens and workspace ID are correctly copied to your configuration
-4. The app has been added to the channels it needs to access
-
-## Build
-
-Docker build:
-
-```bash
-docker build -t mcp/slack -f src/slack/Dockerfile .
-```
-
-## License
-
-This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
